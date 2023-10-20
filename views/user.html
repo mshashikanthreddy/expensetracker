@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+</head>
+<body>
+    <div>
+        <h1>Expense Tracker</h1>
+        <form onsubmit="registerUser(event)">
+        <label>Name:</label>
+        <input type="text" id="username" name="username" required>
+        <label>Email:</label>
+        <input type="text" id="email" name="email" required>
+        <label>Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button style="background-color:lightblue;">Sign In</button><br><br>
+    </form>
+    <label>New User?</label>
+    <a href="registerpage">Sign Up</a>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
+    <script src="user.js"></script>
+</body>
+</html>
