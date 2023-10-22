@@ -1,44 +1,24 @@
-async function registerUser(event) {
+async function loginUser(event){
 
     event.preventDefault();
 
-    const name = event.target.username.value ;
-    const email = event.target.email.value ;
-    const password = event.target.password.value ;
+    const email = event.target.mail.value;
+    const password = event.target.password.value;
 
     const user = {
 
-        name ,
-        email ,
+        email,
         password
     }
 
-    try {
+    try{
 
-        const response = await axios.get("http://localhost:3000/user/check-user")
+        const response = await axios.post("http://localhost:3000/user/login",user)
 
-       for(let i=0;i<response.data.length;i++)
-       {
+        alert(response.data.message);
 
-        
-        if(response.data[i].name == user.name || response.data[i].email == user.email)
-        {
-            alert('User already Exist');
-            return;
-        }
-        }
-
-        try{
-             const response = await axios.post("http://localhost:3000/user/signUp",user)  
-                 console.log(response);    
-            }
-        catch(err){
-            console.log(err);
-        }
     }
-    catch(err){
-        console.log(err);
+    catch(err) {
+        alert(err.message);
     }
-    
-   
 }
