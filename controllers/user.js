@@ -1,56 +1,10 @@
 const User = require('../models/userlogin');
 
-exports.checkUserDetails = async (req,res,next) => {
+const bcrypt = require('bcrypt');
 
-    try{
+function isValid(str) {
 
-    const email = req.body.email;
-    const password = req.body.password;
-
-    const response =  await User.findAll()
-     
-
-    
-
-    let flag = true;
-
-    for(let i=0;i<response.length;i++)
-    {
-
-        if(response[i].email == email && response[i].password == password)
-        {
-            flag = false;
-            return res.status(200).json({message : "successfully loggged in"});      
-        }
-        else if(response[i].email == email && response[i].password != password)
-        {
-            flag = false;
-            return res.status(404).json({message : "password is incorrect"});  
-        }
-        else if(response[i].email != email && response[i].password == password)
-        {
-            flag  = false;
-            return res.status(404).json({message : "email is incorrect"});
-        }
-    }
-
-    if(flag)
-    {
-        res.status(404).json({message : "User Not Found"});  
-    }
-
-    
-
-    }
-    catch(err) {
-        console.log(err);
-    }
-
-}
-
-function stringInvalid(string)
-{
-    if(string.length < 0 || string === undefined)
+    if(str.length < 0 )
     {
         return true;
     }
@@ -60,44 +14,82 @@ function stringInvalid(string)
     }
 }
 
-exports.postUserDetails = async (req,res,next) => {
+const signUp = async (req,res,next) => {
 
-    const name = req.body.name ;
+    const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
 
     try {
 
-    if(stringInvalid(name) || stringInvalid(email) || stringInvalid(password))
-    {
-        res.status(400).json( {err : "Bad Parameters , Something is missing"});
+        
+
+        if(isValid(name) || isValid(email) || isValid(password))
+        {
+           return res.status(400).json({err : 'please enter valid parameters'});
+        }
+
+        const response = await User.findAll( {where : {email : email}});
+
+        if(response.length > 0)
+        {
+             return res.status(401).json({err : 'Email already exists'});
+        }
+
+        const saltrounds = 10 ;
+            bcrypt.hash ( password , saltrounds , async (err , hash) => {
+               console.log(err)
+            await User.create({name : name , email : email , password : hash})
+            res.status(201).json({message : 'New user created successfully'});
+        })
+    }catch(err) {
+        res.status(400).json(err);
     }
 
-     const response  = await User.findAll()
-     
+}
 
-    console.log(response.length);
+const login = async (req,res,next) => {
 
-    
-     for(let i=0;i<response.length;i++)
-     {
-        if(response[i].name == name && response[i].email != email)
+    const email = req.body.email ;
+    const password = req.body.password;
+
+    try{
+
+        const response = await User.findAll({where : {email : email}})
+
+        if(response.length > 0)
         {
-            res.status(404).json( {err : "User Credentials Already Exists"});
-        }
-     }
-    
+            bcrypt.compare(password,response[0].password, (err , result) => {
 
-        User.create({
-            name : name ,
-            email : email,
-            password : password
-        })
-        .then(response => {
-            res.status(200).json(response);
-        })
+                if(err)
+                {
+                    console.log(err);
+                }
+                else if(result === true) 
+                {
+                    return res.status(200).json({message : 'successfully logged in' , success : true})
+                }
+                else
+                {
+                    res.status(400).json({message : 'password is incorrect'});
+                }
+            })
+        }
+            else
+            {
+                res.status(404).json({err : "User doesn't exists"})
+            }
     }
     catch(err) {
-        console.log(err);
+        res.status(500).json(err);
     }
 }
+
+module.exports = {
+
+    signUp,
+    login
+}
+
+
+     
