@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 function isValid(str) {
 
-    if(str.length < 0 )
+    if(str.length < 0 || str.length === undefined)
     {
         return true;
     }
@@ -67,6 +67,7 @@ const login = async (req,res,next) => {
                 }
                 else if(result === true) 
                 {
+                    
                     return res.status(200).json({message : 'successfully logged in' , success : true})
                 }
                 else

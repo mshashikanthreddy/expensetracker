@@ -14,9 +14,17 @@ async function loginUser(event){
     try{
 
         const response = await axios.post("http://localhost:3000/user/login",user)
-
+        
         alert(response.data.message);
 
+        if(response.status === 200)
+        {
+            window.location.href = "../views/expense.html" ;
+        }
+        else
+        {
+            throw new Error('failed to load page');
+        }
     }
     catch(err) {
         alert(err.message);
