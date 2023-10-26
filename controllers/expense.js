@@ -17,7 +17,7 @@ const getExpense = async (req,res,next) => {
 
     try {
 
-        const response = await Expense.findAll()
+        const response = await Expense.findAll({where : {userId : req.user.id}})
         res.status(200).json(response);
     }
     catch(err) {
@@ -38,12 +38,12 @@ const addExpense = async (req,res,next) => {
            return res.status(400).json({err : 'please enter valid parameters'});
         }
 
-
         const response = await Expense.create({
 
             amount : amount ,
             description : description ,
-            category : category
+            category : category,
+            userId : req.user.id
         })
         res.status(200).json(response);
     }
@@ -59,10 +59,14 @@ const deleteExpense = async ( req,res,next) => {
 
     try{
 
-       const expense = await Expense.findByPk(id)
+      const response =  await Expense.destroy({where : {id : id , userId : req.user.id}})
 
-       expense.destroy();
+      
 
+       if(response == 0)
+       {
+        return res.status(401).json({success : false , message : "expenses doesn't exists"});
+       }
        res.status(200).json({message : "successfully deleted expenses"})
 
 

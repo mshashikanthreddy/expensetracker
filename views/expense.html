@@ -17,12 +17,14 @@
     <label>Expenditure-description:</label>
     <input type="text" id="description" name="description" required/>
     <label>choose a category:</label>
-    <input list="categories" name="category" >
-    <datalist id="category">
-        <option value="Electricity">
-        <option value="Grocery">
-        <option value="Education">
-    </datalist>
+    <select id="category" name="category" >
+        <option value="Electricity">Electricity</option>
+        <option value="Grocery">Grocery</option>
+        <option value="Education">Education</option>
+        <option value="Fuel">Fuel</option>
+        <option value="Health">Health</option>
+        <option value="Entertainment">Entertainment</option>
+    </select>
     <button> submit </button>
 </form>
 </div>

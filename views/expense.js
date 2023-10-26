@@ -12,7 +12,8 @@ async function showExpenditure(event)
     }
 
     try {
-        const response = await axios.post('http://localhost:3000/expense/addExpense',expense);
+        const token = localStorage.getItem('token');
+        const response = await axios.post('http://localhost:3000/expense/addExpense',expense,{headers : {'Authorization' : token}});
             showItemsOnScreen(response.data);
         }
     
@@ -24,7 +25,8 @@ async function showExpenditure(event)
 window.addEventListener('DOMContentLoaded' , async() => {
 
     try {
-        const response = await axios.get('http://localhost:3000/expense/getExpense')
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:3000/expense/getExpense',{headers : {'Authorization' : token}})
         response.data.forEach((element) => {
             showItemsOnScreen(element);
         })
@@ -52,12 +54,13 @@ function showItemsOnScreen(list){
 
      async function deleteUser(id) {
         try {
-          await axios.delete(`http://localhost:3000/expense/deleteExpense/${id}`)
+            const token = localStorage.getItem('token');
+          await axios.delete(`http://localhost:3000/expense/deleteExpense/${id}`,{headers : {'Authorization' : token}})
         
             removeOnScreen(id);
         }
         catch(err) {
-            console.log(err);
+            console.log(JSON.stringify(err));
         }
     }
 

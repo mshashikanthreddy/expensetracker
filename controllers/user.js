@@ -2,6 +2,8 @@ const User = require('../models/userlogin');
 
 const bcrypt = require('bcrypt');
 
+const jwt = require('jsonwebtoken');
+
 function isValid(str) {
 
     if(str.length < 0 || str.length === undefined)
@@ -48,6 +50,11 @@ const signUp = async (req,res,next) => {
 
 }
 
+function generateToken(id)
+{
+    return jwt.sign({userId  : id}, 'secretkey');
+}
+
 const login = async (req,res,next) => {
 
     const email = req.body.email ;
@@ -68,7 +75,7 @@ const login = async (req,res,next) => {
                 else if(result === true) 
                 {
                     
-                    return res.status(200).json({message : 'successfully logged in' , success : true})
+                    return res.status(200).json({message : 'successfully logged in' , success : true, token : generateToken(response[0].id)});
                 }
                 else
                 {

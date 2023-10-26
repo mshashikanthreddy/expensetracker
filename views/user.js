@@ -14,6 +14,12 @@ async function loginUser(event){
     try{
 
         const response = await axios.post("http://localhost:3000/user/login",user)
+
+        document.getElementById('mail').value = "";
+
+        localStorage.setItem('token',response.data.token);
+
+        //console.log(response.data.token);
         
         alert(response.data.message);
 
