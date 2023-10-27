@@ -61,8 +61,6 @@ const deleteExpense = async ( req,res,next) => {
 
       const response =  await Expense.destroy({where : {id : id , userId : req.user.id}})
 
-      
-
        if(response == 0)
        {
         return res.status(401).json({success : false , message : "expenses doesn't exists"});

@@ -50,8 +50,9 @@ const signUp = async (req,res,next) => {
 
 }
 
-function generateToken(id)
-{
+const generateToken = (id)=> 
+{  
+
     return jwt.sign({userId  : id}, 'secretkey');
 }
 
@@ -96,7 +97,8 @@ const login = async (req,res,next) => {
 module.exports = {
 
     signUp,
-    login
+    login,
+    generateToken
 }
 
 
