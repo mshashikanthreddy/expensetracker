@@ -13,7 +13,7 @@ const purchasePremium = async  (req,res) => {
             key_secret : process.env.RAZORPAY_KEY_SECRET
         })
 
-        console.log(process.env.RAZORPAY_KEY_SECRET);
+        //console.log(process.env.RAZORPAY_KEY_SECRET);
         const amount = 1000 ;
 
         // we are send the details and creating the order and in response it gives orderid if gets success
@@ -45,14 +45,18 @@ const updateTransactionStatus = async (req,res,next) => {
         const payment_id = req.body.payment_id;
         const order_id = req.body.order_id;
 
-        const order = await Order.findOne({where : {orderid : order_id}})
+        console.log('order',order_id);
+        console.log('paymentid',payment_id);
 
-       console.log( order ) ;
+        const order = await Order.findOne({where : {orderid : order_id}})
+        
+
+       if(order){
             const promise1 = order.update({ paymentid : payment_id , status : "SUCCESSFUL"})
             const promise2 = req.user.update({ premiumUser : true})
 
             Promise.all([promise1,promise2]).then(() => {
-                return res.status(200).json({success : true , message : "Transaction is Successful", token : userController.generateToken(userId)});
+                return res.status(200).json({success : true , message : "Transaction is Successful", token : userController.generateToken(userId,undefined,true)});
                 // here token is generated to send to frontend and 
                 //remove the "buy premium" button in the user dashboard.
             })
@@ -60,12 +64,12 @@ const updateTransactionStatus = async (req,res,next) => {
                 throw new Error (err);
             })
         }
-        // else
-        // {
-        //      order.update({paymentid : payment_id , status : "FAILED"});
-        //     return res.status(401).json({message : "Transaction Failed"});
-        // }
-    //}
+        else
+        {
+             order.update({paymentid : payment_id , status : "FAILED"});
+            return res.status(401).json({message : "Transaction Failed"});
+        }
+    }
     catch(err) {
         res.status(403).json({message : "something went wrong",err : err})
     }

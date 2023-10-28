@@ -24,8 +24,6 @@ const signUp = async (req,res,next) => {
 
     try {
 
-        
-
         if(isValid(name) || isValid(email) || isValid(password))
         {
            return res.status(400).json({err : 'please enter valid parameters'});
@@ -50,10 +48,10 @@ const signUp = async (req,res,next) => {
 
 }
 
-const generateToken = (id)=> 
+const generateToken = (id,name,premiumUser)=> 
 {  
 
-    return jwt.sign({userId  : id}, 'secretkey');
+    return jwt.sign({userId  : id,name : name ,premiumUser}, 'secretkey');
 }
 
 const login = async (req,res,next) => {
@@ -76,7 +74,7 @@ const login = async (req,res,next) => {
                 else if(result === true) 
                 {
                     
-                    return res.status(200).json({message : 'successfully logged in' , success : true, token : generateToken(response[0].id)});
+                    return res.status(200).json({message : 'successfully logged in' , success : true, token : generateToken(response[0].id,response[0].name,response[0].premiumUser)});
                 }
                 else
                 {

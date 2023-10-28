@@ -20,6 +20,8 @@ const expenseRoutes = require('./routes/expense');
 
 const purchaseRoutes = require('./routes/purchase');
 
+const premiumRoutes = require('./routes/premium');
+
 app.use(bodyParser.json ({extended : false}));
 
 const dotenv = require('dotenv');
@@ -31,6 +33,8 @@ app.use(userRoutes);
 app.use(expenseRoutes);
 
 app.use(purchaseRoutes);
+
+app.use(premiumRoutes);
 
 User.hasMany(Expense)
 Expense.belongsTo(User);

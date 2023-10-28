@@ -22,10 +22,33 @@ async function showExpenditure(event)
     }
 }
 
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
+function showPremiumuserMessage() {
+    document.getElementById('rzp-button1').style.visibility = "hidden"
+    document.getElementById('premium').innerHTML = "You are a premium user "
+}
+
+
 window.addEventListener('DOMContentLoaded' , async() => {
 
     try {
         const token = localStorage.getItem('token');
+    const decodeToken = parseJwt(token)
+    console.log(decodeToken)
+    const premiumUser = decodeToken.premiumUser
+    if(premiumUser){
+        showPremiumuserMessage()
+        showLeaderBoard()
+    }
         const response = await axios.get('http://localhost:3000/expense/getExpense',{headers : {'Authorization' : token}})
         response.data.forEach((element) => {
             showItemsOnScreen(element);
@@ -73,6 +96,27 @@ function showItemsOnScreen(list){
         parentElement.removeChild(childElement);
     }
 
+    function showLeaderBoard() {
+
+        const inputElement = document.createElement('input');
+        inputElement.type = "button";
+        inputElement.value = "Display Leaderboard";
+        inputElement.onclick = async() => {
+
+            const token = localStorage.getItem('token');
+            const leaderBoardList = await axios.get("http://localhost:3000/premium/leaderBoard", {headers : {"Authorization" : token}});
+
+            var leaderBoardElement = document.getElementById('leaderboard');
+            leaderBoardElement.innerHTML += `<h1> Leader Board </h1>`;
+
+            leaderBoardList.data.forEach((userDetails) => {
+                leaderBoardElement.innerHTML += `<li>Name - ${userDetails.name} ,Total Expense - ${userDetails.totalCost || 0}</li>`
+            })    
+        }
+        document.getElementById('premium').appendChild(inputElement);
+    }
+
+
 document.getElementById('rzp-button1').onclick = async function (e) {
 
     const token = localStorage.getItem('token');
@@ -97,7 +141,13 @@ document.getElementById('rzp-button1').onclick = async function (e) {
             alert('congratulations, you are premium user now');
 
             document.getElementById('rzp-button1').style.visibility = "hidden";
+
+            const parentElement = document.getElementById('premium') ;
+            const childElement = `<li>you are premium user now</li>`;
+            parentElement.innerHTML += childElement;
             localStorage.setItem('token',user.data.token);
+
+            showLeaderBoard ();
 
         },
     };
@@ -107,6 +157,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
     e.preventDefault();
 
     rzp1.on('payment.failed', function(response) {
+        console.log()
         alert('Transaction failed,something went wrong');
     })
 }
