@@ -72,7 +72,7 @@ function showItemsOnScreen(list){
                         </li>`
 
     parentElement.innerHTML += childElement;
-    
+
 
 }
 
@@ -112,7 +112,7 @@ function showItemsOnScreen(list){
 
 
             leaderBoardList.data.forEach((userDetails) => {
-                leaderBoardElement.innerHTML += `<li>Name - ${userDetails.name} ,Total Expense - ${userDetails.totalCost || 0}</li>`
+                leaderBoardElement.innerHTML += `<li>Name - ${userDetails.name} ,Total Expense - ${userDetails.totalExpenses || 0}</li>`
             })    
         }
         document.getElementById('premium').appendChild(inputElement);
