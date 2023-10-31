@@ -22,6 +22,8 @@ const purchaseRoutes = require('./routes/purchase');
 
 const premiumRoutes = require('./routes/premium');
 
+const passwordRoutes = require('./routes/forgotpassword');
+
 app.use(bodyParser.json ({extended : false}));
 
 const dotenv = require('dotenv');
@@ -35,6 +37,8 @@ app.use(expenseRoutes);
 app.use(purchaseRoutes);
 
 app.use(premiumRoutes);
+
+app.use(passwordRoutes);
 
 User.hasMany(Expense)
 Expense.belongsTo(User);
