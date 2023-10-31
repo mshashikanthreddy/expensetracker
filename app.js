@@ -9,6 +9,7 @@ app.use(cors());
 const User = require('./models/userlogin');
 const Expense = require('./models/expenses');
 const Order = require('./models/orders');
+const Forgotpassword = require('./models/forgotpassword')
 
 const bodyParser = require('body-parser');
 
@@ -22,7 +23,7 @@ const purchaseRoutes = require('./routes/purchase');
 
 const premiumRoutes = require('./routes/premium');
 
-const passwordRoutes = require('./routes/forgotpassword');
+const passwordRoutes = require('./routes/resetpassword');
 
 app.use(bodyParser.json ({extended : false}));
 
@@ -45,6 +46,9 @@ Expense.belongsTo(User);
 
 User.hasMany(Order)
 Order.belongsTo(User);
+
+User.hasMany(Forgotpassword)
+Forgotpassword.belongsTo(User);
 
 sequelize.sync()
     .then( result => {
