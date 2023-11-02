@@ -11,6 +11,9 @@
     <div id="premium">
         <button id="rzp-button1">Buy Premium</button>
     </div>
+    <div id="download">
+        <button onclick="download()">Download</button>
+    </div>
     <div>
     <form onsubmit="showExpenditure(event)">
     <label>Expense-amount:</label>
@@ -29,7 +32,7 @@
     <button>Add Expense</button>
     </form>
     </div>
-    <div>
+    
     <table id="listOfExpenditures">
         <thead>
             <tr>
@@ -39,11 +42,10 @@
                 <th>Category</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tablebody">
             <!--Expenses will be added here-->
         </tbody>
-    <div id="download"></div>
-</div>
+    </table>
     <ul id="leaderboard"></ul>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>

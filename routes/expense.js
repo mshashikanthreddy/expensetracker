@@ -10,6 +10,8 @@ router.get('/expense/getExpense',userAuthentication.verification ,expenseControl
 
 router.post('/expense/addExpense',userAuthentication.verification , expenseController.addExpense);
 
+router.get('/expense/download',userAuthentication.verification,expenseController.downloadExpenses);
+
 router.delete('/expense/deleteExpense/:id',userAuthentication.verification , expenseController.deleteExpense);
 
 module.exports = router;

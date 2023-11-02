@@ -97,7 +97,7 @@ function showItemsOnScreen(list){
         parentElement.removeChild(childElement);
     }
 
-    function showLeaderBoard() {
+    async function showLeaderBoard() {
 
         const inputElement = document.createElement('input');
         inputElement.type = "button";
@@ -117,6 +117,30 @@ function showItemsOnScreen(list){
         }
         document.getElementById('premium').appendChild(inputElement);
     }
+
+   async function download() {
+
+            try {
+            const token = localStorage.getItem('token');
+         const response = await axios.get('http://localhost:3000/expense/download', { headers: { Authorization: token } })
+            
+         if(response.status === 200 )
+         {
+            let a = document.createElement("a");
+            a.href = response.data.fileURL;
+            a.download = 'myexpense.csv';
+            a.click();
+         }
+         else{
+            throw new Error(response.data.message);
+         }
+    }
+    catch(err) {
+        console.log(err);
+        throw new Error(err);
+    }
+}
+    
 
 
 document.getElementById('rzp-button1').onclick = async function (e) {
