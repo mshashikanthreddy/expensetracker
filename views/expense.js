@@ -37,9 +37,10 @@ function showPremiumuserMessage() {
     document.getElementById('premium').innerHTML = "You are a premium user "
 }
 
-
+const page = 1;
 window.addEventListener('DOMContentLoaded' , async() => {
 
+    
     try {
         const token = localStorage.getItem('token');
     const decodeToken = parseJwt(token)
@@ -49,15 +50,73 @@ window.addEventListener('DOMContentLoaded' , async() => {
         showPremiumuserMessage()
         showLeaderBoard()
     }
-        const response = await axios.get('http://localhost:3000/expense/getExpense',{headers : {'Authorization' : token}})
-        response.data.forEach((element) => {
-            showItemsOnScreen(element);
+        const response = await axios.get(`http://localhost:3000/expense/getExpense?page=${page}`,{headers : {'Authorization' : token}})
+        
+        let expenses = response.data.expenses;
+        expenses.forEach((expense) => {
+            showItemsOnScreen(expense);
         })
+        showPagination(response.data);
     }
     catch(err) {
         console.log(err);
     }
 })
+
+function showPagination(pageDetails){
+try {
+   const currentPage = pageDetails.currentPage;
+   const hasNextPage = pageDetails.hasNextPage;
+   const nextPage    = pageDetails.nextPage;
+   const hasPreviousPage = pageDetails.hasPreviousPage;
+   const previousPage = pageDetails.previousPage;
+  // const lastPage = pageDetails.
+
+   const paginationBtn = document.querySelector('#paginationbutton');
+
+   paginationBtn.innerHTML = '';
+
+   if(hasPreviousPage){
+    const btn2 = document.createElement('button');
+    btn2.innerHTML = previousPage
+    btn2.addEventListener('click',() => fetchExpenses(previousPage))
+    paginationBtn.appendChild(btn2)
+   }
+
+   const btn1 = document.createElement('button');
+    btn1.innerHTML = currentPage
+    btn1.addEventListener('click',() => fetchExpenses(currentPage))
+    paginationBtn.appendChild(btn1)
+
+   if(hasNextPage) {
+    const btn2 = document.createElement('button');
+    btn2.innerHTML = nextPage
+    btn2.addEventListener('click',() => fetchExpenses(nextPage))
+    paginationBtn.appendChild(btn2)
+   }
+}
+catch(err){
+    console.log(err);
+}
+
+}
+
+async function fetchExpenses(page) {
+
+    try{
+        const token = localStorage.getItem('token');
+    const response = await axios.get(`http://localhost:3000/expense/getExpense?page=${page}`,{headers : {'Authorization' : token}})
+    let expenses = response.data.expenses;
+    expenses.forEach((expense) => {
+        showItemsOnScreen(expense);
+    })
+    showPagination(response.data);
+}
+catch(err) {
+    console.log(err);
+}
+}
+
 
 function showItemsOnScreen(list){
 
@@ -187,3 +246,4 @@ document.getElementById('rzp-button1').onclick = async function (e) {
         alert('Transaction failed,something went wrong');
     })
 }
+
