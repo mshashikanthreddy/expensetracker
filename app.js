@@ -1,5 +1,9 @@
 const express = require('express');
 
+const fs = require('fs');
+
+const path = require('path');
+
 const app = express();
 
 const cors = require('cors');
@@ -25,6 +29,12 @@ const premiumRoutes = require('./routes/premium');
 
 const passwordRoutes = require('./routes/resetpassword');
 
+const helmet = require('helmet');
+
+const compression = require('compression');
+
+const morgan = require('morgan');
+
 app.use(bodyParser.json ({extended : false}));
 
 const dotenv = require('dotenv');
@@ -41,6 +51,17 @@ app.use(premiumRoutes);
 
 app.use(passwordRoutes);
 
+const accessLogStream = fs.createWriteStream(
+    path.join(__dirname,'access.log'),
+    {flags : 'a'}
+    );
+
+app.use(helmet());
+
+app.use(compression());
+
+app.use(morgan('combined', {stream : accessLogStream}))
+
 User.hasMany(Expense)
 Expense.belongsTo(User);
 
@@ -52,7 +73,7 @@ Forgotpassword.belongsTo(User);
 
 sequelize.sync()
     .then( result => {
-        app.listen(3000);
+        app.listen(process.env.PORT || 3000);
     })
     .catch(err => {
         console.log(err);
