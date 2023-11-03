@@ -19,10 +19,11 @@ function isValid(str) {
     }
 }
 
-const ITEMS_PER_PAGE = 2;
-const getExpense = async (req,res,next) => {
+const getExpense =  (req,res,next) => {
 
   const page = Number(req.query.page || 1);
+  const ITEMS_PER_PAGE =Number( req.header('ITEMS_PER_PAGE') || 5 );
+  console.log(ITEMS_PER_PAGE);
   console.log(req.query.page);
   let totalItems;
     try {
@@ -30,8 +31,8 @@ const getExpense = async (req,res,next) => {
       Expense.count()
       .then((total) => {
       totalItems = total;
-      console.log(totalItems);
-         return Expense.findAll(
+      console.log(totalItems)
+        return Expense.findAll(
           {offset : (page - 1) * ITEMS_PER_PAGE,
           limit : ITEMS_PER_PAGE},
          {where : {userId : req.user.id}})

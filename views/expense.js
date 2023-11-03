@@ -1,3 +1,4 @@
+
 async function showExpenditure(event)
 {
     event.preventDefault();
@@ -37,7 +38,7 @@ function showPremiumuserMessage() {
     document.getElementById('premium').innerHTML = "You are a premium user "
 }
 
-const page = 1;
+const paginationBtn = document.querySelector('#paginationbutton');
 window.addEventListener('DOMContentLoaded' , async() => {
 
     
@@ -50,8 +51,10 @@ window.addEventListener('DOMContentLoaded' , async() => {
         showPremiumuserMessage()
         showLeaderBoard()
     }
-        const response = await axios.get(`http://localhost:3000/expense/getExpense?page=${page}`,{headers : {'Authorization' : token}})
-        
+
+    console.log(document.getElementById('pagenumber').value );
+        const response = await axios.get(`http://localhost:3000/expense/getExpense?page=1`,{headers : {'Authorization' : token,'ITEMS_PER_PAGE ': document.getElementById('pagenumber').value }})
+
         let expenses = response.data.expenses;
         expenses.forEach((expense) => {
             showItemsOnScreen(expense);
@@ -72,26 +75,27 @@ try {
    const previousPage = pageDetails.previousPage;
   // const lastPage = pageDetails.
 
-   const paginationBtn = document.querySelector('#paginationbutton');
+  // const paginationBtn = document.querySelector('#paginationbutton');
 
    paginationBtn.innerHTML = '';
 
    if(hasPreviousPage){
     const btn2 = document.createElement('button');
     btn2.innerHTML = previousPage
-    btn2.addEventListener('click',() => fetchExpenses(previousPage))
+    btn2.addEventListener('click',() =>fetchExpenses(previousPage))
     paginationBtn.appendChild(btn2)
    }
 
    const btn1 = document.createElement('button');
+   btn1.classList.add('active')
     btn1.innerHTML = currentPage
-    btn1.addEventListener('click',() => fetchExpenses(currentPage))
+    btn1.addEventListener('click',() =>  fetchExpenses(currentPage))
     paginationBtn.appendChild(btn1)
 
    if(hasNextPage) {
     const btn2 = document.createElement('button');
     btn2.innerHTML = nextPage
-    btn2.addEventListener('click',() => fetchExpenses(nextPage))
+    btn2.addEventListener('click',() =>  fetchExpenses(nextPage))
     paginationBtn.appendChild(btn2)
    }
 }
@@ -105,8 +109,10 @@ async function fetchExpenses(page) {
 
     try{
         const token = localStorage.getItem('token');
-    const response = await axios.get(`http://localhost:3000/expense/getExpense?page=${page}`,{headers : {'Authorization' : token}})
+
+    const response = await axios.get(`http://localhost:3000/expense/getExpense?page=${page}`,{headers : {'Authorization' : token,'ITEMS_PER_PAGE ': document.getElementById('pagenumber').value }})
     let expenses = response.data.expenses;
+    document.getElementById('tablebody').innerHTML = '';
     expenses.forEach((expense) => {
         showItemsOnScreen(expense);
     })
@@ -118,22 +124,90 @@ catch(err) {
 }
 
 
-function showItemsOnScreen(list){
+function showItemsOnScreen(expense){
 
     document.getElementById('price').value = '';
     document.getElementById('description').value = '';
     document.getElementById('category').value = '';
 
-    const parentElement = document.getElementById('listOfExpenditures');
+    const tableBody = document.getElementById('tablebody');
 
-    const childElement = `<li id=${list.id}> '${list.amount}'-'${list.description}'-'${list.category}'
-                        <button class="deletebutton" onclick=deleteUser(${list.id})>Delete</button>
-                        </li>`
+    const date = new Date(expense.createdAt);
+          const formattedDate = `${date.toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit',
+          })} ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' })}`;
+          const row = document.createElement('tr');
+          row.id = expense.id;
+          row.innerHTML = `
+            <td>${formattedDate}</td>
+            <td>${expense.amount}</td>
+            <td>${expense.description}</td>
+            <td>${expense.category}</td>
+            <td>
+              <button onclick="deleteUser(${expense.id})">Delete</button>
+            </td>
+          `
+          tableBody.appendChild(row);
+        }
 
-    parentElement.innerHTML += childElement;
-
-
-}
+// function showItemsOnScreen(expenses) {
+//     console.log(expenses); // Log the value of expenses to check if it's an array
+//     const tableBody = document.querySelector('#listOfExpenditures tbody');
+//     tableBody.innerHTML = '';
+  
+//     let currentPage = 1;
+// const expensesPerPage = 5;
+//     // Calculate the start and end index for the current page
+//     const startIndex = (currentPage - 1) * expensesPerPage;
+//     const endIndex = startIndex + expensesPerPage;
+  
+//     // Slice the expenses array based on the start and end index
+//     const paginatedExpenses = expenses.slice(startIndex, endIndex);
+  
+//     // Check if expenses is an array
+//     paginatedExpenses.forEach((expense) => {
+//       // Changing createdAt to a suitable date format
+//       const date = new Date(expense.createdAt);
+//       const formattedDate = `${date.toLocaleDateString('en-US', {
+//         day: '2-digit',
+//         month: '2-digit',
+//         year: '2-digit',
+//       })} ${date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' })}`;
+//       const row = document.createElement('tr');
+//       row.innerHTML = `
+//         <td>${formattedDate}</td>
+//         <td>${expense.amount}</td>
+//         <td>${expense.description}</td>
+//         <td>${expense.category}</td>
+//         <td>
+//           <button onclick="deleteExpense(${expense.id})">Delete</button>
+//         </td>
+//       `;
+//       tableBody.appendChild(row);
+//     });
+  
+//     // Create or update the pagination container
+//     const paginationContainer = document.querySelector('#paginationbutton');
+//     paginationContainer.innerHTML = '';
+  
+//     // Calculate the total number of pages
+//     const totalPages = Math.ceil(expenses.length / expensesPerPage);
+  
+//     // Create pagination buttons
+//     for (let i = 1; i <= totalPages; i++) {
+//       const button = document.createElement('button');
+//       button.innerText = i;
+//       button.addEventListener('click', () => {
+//         // Update current page and re-render expenses
+//         currentPage = i;
+//         showItemsOnScreen(expenses);
+//       });
+//       paginationContainer.appendChild(button);
+//     }
+//   }
+  
 
      async function deleteUser(id) {
         try {
@@ -149,7 +223,7 @@ function showItemsOnScreen(list){
 
     function removeOnScreen(id) {
 
-        const parentElement = document.getElementById('listOfExpenditures');
+        const parentElement = document.getElementById('tablebody');
 
         const childElement = document.getElementById(id);
 
