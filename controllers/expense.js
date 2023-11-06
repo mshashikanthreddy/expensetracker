@@ -39,6 +39,7 @@ const getExpense =  (req,res,next) => {
         })
          .then((expense) => {
 
+          console.log(expense);
           res.status(200).json({
             expenses : expense,
             currentPage : page,

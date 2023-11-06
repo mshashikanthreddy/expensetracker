@@ -6,6 +6,10 @@ const path = require('path');
 
 const app = express();
 
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 const cors = require('cors');
 
 app.use(cors());
@@ -37,9 +41,6 @@ const morgan = require('morgan');
 
 app.use(bodyParser.json ({extended : false}));
 
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 app.use(userRoutes);
 
