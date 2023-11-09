@@ -13,12 +13,12 @@ async function registerUser(event) {
         password
     } 
         try{
-             const response = await axios.post("http://localhost:3000/user/signUp",user) 
+             const response = await axios.post("http://54.87.54.201:3000/user/signUp",user) 
   
                  alert(response.data.message);  
                  window.location.href = "../views/user.html";
             }
         catch(err){
-            alert(err.message);
+            alert(err.response.data.message);
         }
 }

@@ -52,6 +52,11 @@ app.use(premiumRoutes);
 
 app.use(passwordRoutes);
 
+app.use((req,res) => {
+    console.log('requesturl',req.url);
+    res.sendFile(path.join(__dirname,`${req.url}`));
+})
+
 const accessLogStream = fs.createWriteStream(
     path.join(__dirname,'access.log'),
     {flags : 'a'}

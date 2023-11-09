@@ -4,27 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="expense.css">
     <title>Expense Tracker</title>
 </head>
-<style>
-    table, th, td {
-      border: 1px solid black;
-    }
-</style>
 <body>
-    <h2><center>Expense Tracker</center></h2><hr>
-    <div id="premium">
+    <h1>Expense Tracker</h1><hr>
+    <div id="premium" class="premiumbutton">
         <button id="rzp-button1">Buy Premium</button>
     </div>
-    <div id="download">
+    <div id="download" class="downloadbutton">
         <button onclick="download()">Download</button>
     </div>
-    <div class="expensecontainer">
+    <div class="model-container">
+    <div class="model-content">
     <form onsubmit="showExpenditure(event)">
-    <label>Expense-amount:</label>
-    <input type="number" id="price" name="price" required />
-    <label>Expenditure-description:</label>
-    <input type="text" id="description" name="description" required/>
+        <h3>Add Expenses</h3>
+        <div class="form-label">
+        <label>Expense-amount:</label>
+        <input type="number" id="price" name="price" required />
+        </div>
+        <div class="form-label">
+        <label>Expenditure-description:</label>
+        <input type="text" id="description" name="description" required/>
+        </div>
+        <div class="form-label">
     <label>choose a category:</label>
     <select id="category" name="category" >
         <option value="Electricity">Electricity</option>
@@ -36,23 +39,23 @@
     </select>
     <button class="btn btn-primary">Add Expense</button>
     </form>
-    </div>
 
-    <div>
+    <div class="form-pagination">
         
-             <label for="pagenumber">Page Views:</label>
+             <label for="pagenumber" >Page Views:</label>
              <select name="pagenumber" id="pagenumber" type="radio" >
-              <option value="5">5</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="6">6</option>
+              <option value="8">8</option>
               <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
              </select>
              
     </div>
     
     <div>
-    <table id="listOfExpenditures">
+        <label><h3>Expense Table</h3></label>
+    <table id="listOfExpenditures" class="expensetable">
         <thead>
             <tr>
                 <th>Date</th>
@@ -66,9 +69,13 @@
             <!--Expenses will be added here-->
         </tbody>
     </table>
+    <div class="leaderboard">
+    <ul id="leaderboard" ></ul>
     </div>
-    <ul id="leaderboard"></ul>
-    <div id="paginationbutton"></div>
+    <div id="paginationbutton" class="pagebutton" ></div>
+    </div>
+    </div>
+</div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="expense.js"></script>

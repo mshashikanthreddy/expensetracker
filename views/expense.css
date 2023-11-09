@@ -1,0 +1,75 @@
+table, th, td {
+    border: 1px solid black;
+  }
+
+  h1 {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+
+  form label {
+    font-weight: bold;
+    align-content: end;
+  }
+
+  th,td{
+        padding: 3px;
+        
+       }
+    th{
+        background-color:coral;
+        border:1px solid rgb(0, 0, 0);
+        padding:10px;  
+       }
+     tr{
+        padding : 3px;
+     }
+
+.form-pagination {
+  position: relative;
+bottom: 50;
+}
+
+.pagebutton {
+
+  position:relative;
+  left: 50%;
+}
+
+/* .premiumbutton {
+  position : absolute;
+  left : 20;
+} */
+
+.downloadbutton {
+  position : absolute;
+  right : 0;
+}
+
+.model-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+}
+
+h3 {
+
+  color:darkorange;
+  
+}
+
+.leaderboard{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+h2 {
+
+  color :tomato;
+}
+

@@ -26,14 +26,14 @@ const signUp = async (req,res,next) => {
 
         if(isValid(name) || isValid(email) || isValid(password))
         {
-           return res.status(400).json({err : 'please enter valid parameters'});
+           return res.status(400).json({message : 'please enter valid parameters'});
         }
 
         const response = await User.findAll( {where : {email : email}});
 
         if(response.length > 0)
         {
-             return res.status(401).json({err : 'Email already exists'});
+             return res.status(401).json({message: 'Email already exists'});
         }
 
         const saltrounds = 10 ;
@@ -78,13 +78,13 @@ const login = async (req,res,next) => {
                 }
                 else
                 {
-                    res.status(400).json({message : 'password is incorrect'});
+                    return res.status(400).json({message : 'password is incorrect'});
                 }
             })
         }
             else
             {
-                res.status(404).json({err : "User doesn't exists"})
+               return res.status(404).json({message : "User doesn't exists"})
             }
     }
     catch(err) {

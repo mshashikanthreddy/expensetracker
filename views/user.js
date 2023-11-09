@@ -13,7 +13,7 @@ async function loginUser(event){
 
     try{
 
-        const response = await axios.post("http://localhost:3000/user/login",user)
+        const response = await axios.post("http://54.87.54.201:3000/user/login",user)
 
         document.getElementById('mail').value = "";
 
@@ -27,12 +27,10 @@ async function loginUser(event){
         {
             window.location.href = "../views/expense.html" ;
         }
-        else
-        {
-            throw new Error('failed to load page');
-        }
+        
     }
     catch(err) {
-        alert(err.message);
+        console.log(err.response.data);
+        alert(err.response.data.message); // to error out message.
     }
 }

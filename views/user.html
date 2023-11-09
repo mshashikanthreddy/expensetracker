@@ -3,26 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="user.css">
     <title>Document</title>
 </head>
 <body>
-    <div>
+    <div class='model-container'>
+    <div class="model-content">
         <h1>Expense Tracker</h1>
-    </div>
-    <div>
         <form onsubmit="loginUser(event)">
-            <label>Email</label>
+
+            <div class="mb-3">
+            <label class="form-label">Email:</label>
             <input type="email" id="mail" name="mail" required>
-            <label>password</label>
+            </div>
+
+            <div class="mb-3" >
+            <label class="form-label">password:</label>
             <input type="password" id="password" name="password">
-            <button>Login In</button><br><br>
+            </div>
+
+            <button class="btn btn-primary">Log In</button><br><br>
         </form>
         <div>
+        <label class="form-label"></label>
             <a href="../views/forgotpassword.html">forgotpassword?</a><br><br>
         </div>
         <div>
-        <label>New User?</label>
+        <label class ="form-label">New User?</label>
         <a href="../views/register.html">Sign Up</a>
+        </div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
