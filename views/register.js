@@ -15,7 +15,10 @@ async function registerUser(event) {
         try{
              const response = await axios.post("http://54.87.54.201:3000/user/signUp",user) 
   
-                 alert(response.data.message);  
+                 alert(response.data.message);
+                 document.getElementById('username').value = '';
+                 document.getElementById('email').value = '';  
+                 document.getElementById('password').value = '';  
                  window.location.href = "../views/user.html";
             }
         catch(err){

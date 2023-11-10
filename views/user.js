@@ -25,6 +25,8 @@ async function loginUser(event){
 
         if(response.status === 200)
         {
+            document.getElementById('mail').value = '';
+            document.getElementById('password').value = '';
             window.location.href = "../views/expense.html" ;
         }
         
