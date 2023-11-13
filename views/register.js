@@ -22,7 +22,7 @@ async function registerUser(event) {
                  window.location.href = "../views/user.html";
             }
         catch(err){
-            alert(err.response.data.message);
+            alert(err.response.data.message)
         }
 }
 

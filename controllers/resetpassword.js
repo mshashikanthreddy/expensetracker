@@ -46,7 +46,7 @@ transEmailApi.sendTransacEmail({
     htmlcontent:`<a href="http://52.90.117.238:3000/password/resetpassword/${id}">Reset password</a>` // we have to type "htmlcontent" not "html"
 
 }).then(() => {
-    return res.status(200).json({message : "password reset link sent to your mail",success:true})
+    return res.status(200).json({message : "password reset link sent to your mail",success:true});
 })
 .catch((err) => {
     return res.status(401).json({message : "something went wrong, couldn't send link ",success:false,err})

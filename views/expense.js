@@ -119,7 +119,7 @@ async function fetchExpenses(page) {
     showPagination(response.data);
 }
 catch(err) {
-    console.log(err);
+    console.log(err)
 }
 }
 

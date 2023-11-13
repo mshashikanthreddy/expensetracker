@@ -33,6 +33,6 @@ async function loginUser(event){
     }
     catch(err) {
         console.log(err.response.data);
-        alert(err.response.data.message); // to error out message.
+        alert(err.response.data.message) // to error out message.
     }
 }
