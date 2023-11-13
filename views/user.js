@@ -13,7 +13,7 @@ async function loginUser(event){
 
     try{
 
-        const response = await axios.post("http://54.87.54.201:3000/user/login",user)
+        const response = await axios.post("http://52.90.117.238:3000/user/login",user);
 
         document.getElementById('mail').value = "";
 

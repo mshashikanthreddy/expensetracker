@@ -14,7 +14,7 @@ async function showExpenditure(event)
 
     try {
         const token = localStorage.getItem('token');
-        const response = await axios.post('http://54.87.54.201:3000/expense/addExpense',expense,{headers : {'Authorization' : token}});
+        const response = await axios.post('http://52.90.117.238:3000/expense/addExpense',expense,{headers : {'Authorization' : token}});
             showItemsOnScreen(response.data);
         }
     
@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded' , async() => {
     }
 
     console.log(document.getElementById('pagenumber').value );
-        const response = await axios.get(`http://54.87.54.201:3000/expense/getExpense?page=1`,{headers : {'Authorization' : token,'ITEMS_PER_PAGE ': document.getElementById('pagenumber').value }})
+        const response = await axios.get(`http://52.90.117.238:3000/expense/getExpense?page=1`,{headers : {'Authorization' : token,'ITEMS_PER_PAGE ': document.getElementById('pagenumber').value }})
 
         let expenses = response.data.expenses;
         expenses.forEach((expense) => {
@@ -110,7 +110,7 @@ async function fetchExpenses(page) {
     try{
         const token = localStorage.getItem('token');
 
-    const response = await axios.get(`http://54.87.54.201:3000/expense/getExpense?page=${page}`,{headers : {'Authorization' : token,'ITEMS_PER_PAGE ': document.getElementById('pagenumber').value }})
+    const response = await axios.get(`http://52.90.117.238:3000/expense/getExpense?page=${page}`,{headers : {'Authorization' : token,'ITEMS_PER_PAGE ': document.getElementById('pagenumber').value }});
     let expenses = response.data.expenses;
     document.getElementById('tablebody').innerHTML = '';
     expenses.forEach((expense) => {
@@ -212,7 +212,7 @@ function showItemsOnScreen(expense){
      async function deleteUser(id) {
         try {
             const token = localStorage.getItem('token');
-          await axios.delete(`http://54.87.54.201:3000/expense/deleteExpense/${id}`,{headers : {'Authorization' : token}})
+          await axios.delete(`http://52.90.117.238:3000/expense/deleteExpense/${id}`,{headers : {'Authorization' : token}})
         
             removeOnScreen(id);
         }
@@ -238,7 +238,7 @@ function showItemsOnScreen(expense){
         inputElement.onclick = async() => {
 
             const token = localStorage.getItem('token');
-            const leaderBoardList = await axios.get("http://54.87.54.201:3000/premium/leaderBoard", {headers : {"Authorization" : token}});
+            const leaderBoardList = await axios.get("http://52.90.117.238:3000/premium/leaderBoard", {headers : {"Authorization" : token}});
 
             var leaderBoardElement = document.getElementById('leaderboard');
             leaderBoardElement.innerHTML += `<h2> Leader Board </h2>`;
@@ -255,7 +255,7 @@ function showItemsOnScreen(expense){
 
             try {
             const token = localStorage.getItem('token');
-         const response = await axios.get('http://54.87.54.201:3000/expense/download', { headers: { Authorization: token } })
+         const response = await axios.get('http://52.90.117.238:3000/expense/download', { headers: { Authorization: token } })
             
          if(response.status === 200 )
          {
@@ -279,7 +279,7 @@ function showItemsOnScreen(expense){
 document.getElementById('rzp-button1').onclick = async function (e) {
 
     const token = localStorage.getItem('token');
-    const response = await axios.get("http://54.87.54.201:3000/purchase/premiumUser",{headers : {"Authorization" : token}});
+    const response = await axios.get("http://52.90.117.238:3000/purchase/premiumUser",{headers : {"Authorization" : token}});
 
     var options = 
     {
@@ -290,7 +290,7 @@ document.getElementById('rzp-button1').onclick = async function (e) {
 
         "handler" : async function ( response) { // "handler" is a callback function which will handle the success payment
 
-         const user =  await axios.post("http://54.87.54.201:3000/purchase/updateTransactionStatus",{
+         const user =  await axios.post("http://52.90.117.238:3000/purchase/updateTransactionStatus",{
 
             order_id : options.order_id,
             payment_id : response.razorpay_payment_id
