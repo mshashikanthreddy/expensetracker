@@ -54,7 +54,7 @@ transEmailApi.sendTransacEmail({
 }
 
     else {
-        throw new Error(err)
+        throw new Error(err);
     }
 }
 

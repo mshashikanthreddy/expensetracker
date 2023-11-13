@@ -17,6 +17,6 @@ async function sendEmail(event) {
         alert(response.data.message);
     }
     catch(err){
-        console.log(err);
+        console.log(err)
     }
 }

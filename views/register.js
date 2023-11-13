@@ -19,6 +19,6 @@ async function registerUser(event) {
                  window.location.href = "../views/user.html";
             }
         catch(err){
-            alert(err.message);
+            alert(err.message)
         }
 }
