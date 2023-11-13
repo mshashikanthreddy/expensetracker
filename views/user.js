@@ -33,6 +33,6 @@ async function loginUser(event){
         }
     }
     catch(err) {
-        alert(err.message);
+        alert(err.message)
     }
 }
