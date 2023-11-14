@@ -13,7 +13,7 @@ async function registerUser(event) {
         password
     } 
         try{
-             const response = await axios.post("http://52.90.117.238:3000/user/signUp",user); 
+             const response = await axios.post("http://3.85.244.65:3000/user/signUp",user); 
   
                  alert(response.data.message);  
                  window.location.href = "../views/user.html";

@@ -10,7 +10,7 @@ async function sendEmail(event) {
 
     try {
 
-        const response = await axios.post("http://52.90.117.238:3000/password/forgotpassword",obj)
+        const response = await axios.post("http://3.85.244.65:3000/password/forgotpassword",obj)
 
         console.log(response.data.message);
 
